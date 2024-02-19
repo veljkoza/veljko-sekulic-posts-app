@@ -5,7 +5,19 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
 
-const router = createBrowserRouter([
+
+const router = {
+  posts: {
+    path: '/posts',
+    details(id: string) {
+      return {
+        path: `${this.path}/${id}`
+      }
+    }
+  }
+}
+
+const routerConfig = createBrowserRouter([
   {
     path: "/",
     element: <App />,
@@ -30,6 +42,6 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <RouterProvider router={routerConfig} />
   </React.StrictMode>,
 );
