@@ -1,0 +1,1 @@
+export {type ServiceFn} from './service-fn'
