@@ -1,0 +1,19 @@
+.typography {
+  font-family: var(--font-family);
+  color: var(--text-color);
+  margin: 0; /* Remove default margins */
+}
+
+.typography--heading {
+  font-size: var(--font-size-large);
+  font-weight: bold;
+}
+
+.typography--subheading {
+  font-size: var(--font-size-base);
+  font-weight: normal;
+}
+
+.typography--body {
+  font-size: var(--font-size-small);
+}
