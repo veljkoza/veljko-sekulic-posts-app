@@ -1,0 +1,14 @@
+.separator.separator--small {
+  padding-top: var(--spacing-small);
+  padding-bottom: var(--spacing-small);
+}
+
+.separator.separator--medium {
+  padding-top: var(--spacing-medium);
+  padding-bottom: var(--spacing-medium);
+}
+
+.separator.separator--large {
+  padding-top: var(--spacing-large);
+  padding-bottom: var(--spacing-large);
+}
