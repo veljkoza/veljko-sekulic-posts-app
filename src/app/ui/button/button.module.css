@@ -1,0 +1,29 @@
+.button {
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-family: var(--font-family);
+}
+
+.button.button--mini {
+  padding: var(--spacing-small);
+}
+
+.button.button--default {
+  padding: var(--spacing-small) var(--spacing-medium);
+}
+
+.button.button--primary {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+}
+
+.button.button--plain {
+  background-color: var(--transparent);
+  color: var(--primary-color);
+}
+
+.button.button--plain:hover {
+  background-color: var(--transparent);
+  color: var(--secondary-text-color);
+}
