@@ -40,3 +40,6 @@ The application is structured with a focus on modularity and separation of conce
 - `src/services`: Houses the HTTP client.
 - `src/models`: Defines the data models used across the application.
 - `src/ui`: Contains presentational components which are fully decoupled from rest of the codebase.
+
+
+In ideal world, we would build application inside of monorepo or similar. Our application would serve for presentation purposes only, while business logic would be separated into separate packages like `models`, `services`, `infrastructure`, etc. That way we could have core logic decoupled from UI, even React.
