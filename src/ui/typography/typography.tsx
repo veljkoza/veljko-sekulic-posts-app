@@ -8,6 +8,11 @@ const VARIANTS = {
   body: styles["typography--body"],
 };
 
+const WEIGHTS = {
+  bold: styles["typography--bold"],
+  regular: styles["typography--regular"],
+};
+
 export type TypographyType =
   | "h1"
   | "h2"
@@ -20,6 +25,7 @@ export type TypographyType =
 
 export type TypographyProps<K extends TypographyType> = {
   variant?: keyof typeof VARIANTS;
+  weight?: keyof typeof WEIGHTS;
   as?: K;
   className?: string;
 } & Omit<ComponentPropsWithRef<K>, "as" | "className">;
@@ -27,10 +33,11 @@ export type TypographyProps<K extends TypographyType> = {
 export const Typography = <T extends TypographyType>({
   variant = "body",
   className = "",
+  weight = "regular",
   as: component = "p" as T,
   ...props
 }: TypographyProps<T>) => {
-  const computedClassName = `${styles.typography} ${VARIANTS[variant]} ${className}`;
+  const computedClassName = `${styles.typography} ${VARIANTS[variant]} ${WEIGHTS[weight]} ${className}`;
   const Component = component as ComponentProps<any>;
   return (
     <Component {...props} className={computedClassName}>

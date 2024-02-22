@@ -6,6 +6,7 @@
 
 .typography--heading {
   font-size: var(--font-size-large);
+  color: var(--secondary-color);
   font-weight: bold;
 }
 
@@ -16,4 +17,11 @@
 
 .typography--body {
   font-size: var(--font-size-small);
+}
+
+.typography--bold {
+  font-weight: bold;
+}
+.typography--regular {
+  font-weight: 400;
 }
