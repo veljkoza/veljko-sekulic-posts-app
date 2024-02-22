@@ -3,6 +3,7 @@ import styles from "./button.module.css";
 const SIZE = {
   mini: styles["button--mini"],
   default: styles["button--default"],
+  paddingless: styles["button--paddingless"],
 };
 const VARIANT = {
   plain: styles["button--plain"],
