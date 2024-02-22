@@ -1,5 +1,7 @@
 export { Button } from "./button";
 export { FlatList, type FlatListProps } from "./flat-list";
-export { useVisible } from "./hooks";
+export { Header } from "./header";
+export { useDebounce, useVisible } from "./hooks";
+export { Input } from "./input";
 export { Logo } from "./logo";
 export { Separator, type SeparatorSizeType } from "./separator";

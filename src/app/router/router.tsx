@@ -1,4 +1,3 @@
-import App from "@/App";
 import { createBrowserRouter } from "react-router-dom";
 import { PostsFeedPage } from "../features/posts-feed";
 import { routes } from "./routes";
@@ -6,11 +5,7 @@ import { routes } from "./routes";
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <main>
-        <App />
-      </main>
-    ),
+    element: <PostsFeedPage />,
   },
   {
     path: routes.posts.path,

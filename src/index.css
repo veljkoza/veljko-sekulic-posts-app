@@ -62,8 +62,10 @@ h6 {
 a {
   text-decoration: none;
 }
-
-input,
+.app-container {
+  padding: 0 1.6rem;
+}
+/* input,
 textarea {
   background-color: var(--foreground-color);
   color: var(--text-color);
@@ -71,4 +73,4 @@ textarea {
   padding: var(--spacing-small);
   border-radius: var(--border-radius);
   font-family: var(--font-family);
-}
+} */

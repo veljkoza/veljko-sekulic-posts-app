@@ -1,4 +1,4 @@
-import { Logo } from "@/ui";
+import { Header, Input } from "@/ui";
 import { Separator } from "@/ui/separator";
 import { PostsFeed } from "./posts-feed";
 import styles from "./posts-feed.page.module.css";
@@ -29,11 +29,17 @@ export const PostsFeedPage = () => {
     );
   };
   return (
-    <main>
-      <header className={styles["header"]}>
-        <Logo />
-        <input className={styles["search-bar"]} onChange={searchInputHandler} />
-      </header>
+    <main className="app-container">
+      <Header
+        right={
+          <div className={styles["search-bar"]}>
+            <Input
+              onChange={searchInputHandler}
+              placeholder="Search by username. Ex: Antonette"
+            />
+          </div>
+        }
+      />
       <div>
         <Separator />
         {getBody()}
