@@ -5,4 +5,9 @@ export {
 } from "./Comment";
 export { type ExtendedPost } from "./ExtendedPost";
 export { type GetAllPostsDTO, type GetPostByIdDTO, type Post } from "./Post";
-export { getUserHandle, type GetUserByIdDTO, type User } from "./User";
+export {
+  getUserHandle,
+  type GetAllUsersDTO,
+  type GetUserByIdDTO,
+  type User,
+} from "./User";

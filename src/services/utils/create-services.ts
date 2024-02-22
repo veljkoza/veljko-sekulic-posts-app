@@ -12,12 +12,13 @@ export const createServices = (httpClient = defaultHttpClient) => {
     url: "/comments",
     http: httpClient,
   });
-  const extendedPostsService = createExtendedPostsService({
-    postsService,
-    httpClient,
-  });
 
   const usersService = createUsersService({ url: "/users", http: httpClient });
+  const extendedPostsService = createExtendedPostsService({
+    postsService,
+    usersService,
+    httpClient,
+  });
 
   return {
     posts: postsService,

@@ -5,7 +5,8 @@ import styles from "./posts-feed.page.module.css";
 import { usePostsFeedPage } from "./use-posts-feed-page";
 
 export const PostsFeedPage = () => {
-  const { error, extendedPosts, isLoading } = usePostsFeedPage();
+  const { error, extendedPosts, isLoading, searchInputHandler } =
+    usePostsFeedPage();
 
   const getBody = () => {
     if (isLoading) return <h1>Loading...</h1>;
@@ -31,7 +32,7 @@ export const PostsFeedPage = () => {
     <main>
       <header className={styles["header"]}>
         <Logo />
-        <input className={styles["search-bar"]} />
+        <input className={styles["search-bar"]} onChange={searchInputHandler} />
       </header>
       <div>
         <Separator />

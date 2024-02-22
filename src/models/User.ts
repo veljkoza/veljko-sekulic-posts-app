@@ -31,3 +31,4 @@ export interface User {
 export const getUserHandle = (user: User) => `@${user.username}`;
 
 export type GetUserByIdDTO = User;
+export type GetAllUsersDTO = User[];

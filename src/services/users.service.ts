@@ -1,9 +1,10 @@
 import { httpClient } from "@/infrastructure";
-import { GetUserByIdDTO } from "@/models";
+import { GetAllUsersDTO, GetUserByIdDTO, User } from "@/models";
 import { ServiceFn } from "./types";
 
 export interface IUsersService {
   getById: (userId: number) => Promise<GetUserByIdDTO>;
+  getAll: (urlParams?: Partial<User>) => Promise<GetAllUsersDTO>;
 }
 
 export const createUsersService: ServiceFn<IUsersService> = ({
@@ -12,5 +13,6 @@ export const createUsersService: ServiceFn<IUsersService> = ({
 }) => {
   return {
     getById: (userId) => http.get<GetUserByIdDTO>(`${url}/${userId}`),
+    getAll: (urlParams) => http.get<GetAllUsersDTO>(`${url}`, urlParams),
   };
 };
