@@ -14,7 +14,10 @@ export const FlatList = <T extends any[]>({
     <div>
       {data.map((item, index) => (
         <>
-          {renderItem(item)} {index % 1 === 0 && renderSeparator?.(item)}
+          {renderItem(item)}{" "}
+          {index % 1 === 0 &&
+            index <= data.length - 2 &&
+            renderSeparator?.(item)}
         </>
       ))}
     </div>
