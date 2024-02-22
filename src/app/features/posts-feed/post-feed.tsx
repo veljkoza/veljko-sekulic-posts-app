@@ -1,15 +1,14 @@
-import { useHttpClient } from "@/app/providers";
-import { Comment, GetAllPostsDTO } from "@/models";
+import { useCache, useHttpClient } from "@/app/providers";
+import { Comment, GetAllPostsDTO, getUserHandle } from "@/models";
 import { FlatList, FlatListProps, useVisible } from "@/ui";
-import { Button } from "@/ui/button/button";
+import { Button } from "@/ui/button";
 import { Separator } from "@/ui/separator";
 import { Typography } from "@/ui/typography";
-import { FC, useRef } from "react";
+import { FC, useEffect, useRef } from "react";
 import styles from "./posts-feed.module.css";
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
 export type PostCardProps = {
-  //   username: string;
+  userId: number;
   body: string;
   title: string;
   comments: Comment[];
@@ -21,25 +20,54 @@ export const PostCard: FC<PostCardProps> = ({
   title,
   comments,
   postId,
+  userId,
 }) => {
   const postRef = useRef<HTMLScriptElement | null>(null);
-
   const { isVisible } = useVisible(postRef, {
-    onIntersect: (entry) => {
-      const postId = entry.target.getAttribute("data-post-id");
-      console.log({ postId });
-    },
+    rootMargin: "700px",
   });
+  const { cache } = useCache();
   const { queries } = useHttpClient();
   const { data: fetchedComments } = queries.posts.getCommentsByPostId.useQuery({
     params: postId,
-    options: { enabled: isVisible && comments.length === 0 },
+    options: {
+      enabled: isVisible && !cache.postsComments[postId],
+    },
   });
 
-  const computedComments = () => {
+  const { data: user } = queries.users.getById.useQuery({
+    params: userId,
+    options: { enabled: isVisible && !cache.users[userId] },
+  });
+
+  // add user to cache
+  useEffect(() => {
+    if (user) {
+      cache.users[user.id] = user;
+    }
+  }, [user?.id]);
+
+  //add comments to cache
+  useEffect(() => {
+    if (fetchedComments) {
+      const firstEl = fetchedComments[0];
+      cache.postsComments[firstEl.postId] = fetchedComments;
+    }
+  }, [fetchedComments]);
+
+  const getComputedComments = () => {
+    if (cache.postsComments[postId]) return cache.postsComments[postId];
     if (fetchedComments) return fetchedComments;
     return comments;
   };
+
+  const getUser = () => {
+    if (cache.users[userId]) return cache.users[userId];
+    return user;
+  };
+
+  const computedUser = getUser();
+  const computedComments = getComputedComments();
 
   return (
     <section
@@ -48,25 +76,29 @@ export const PostCard: FC<PostCardProps> = ({
       data-post-id={postId}
     >
       <article>
-        <Typography style={{ paddingBottom: "1rem" }}>
-          Posted by
-          <Button
-            variant="plain"
-            size="paddingless"
-            style={{ marginLeft: "1rem" }}
-          >
-            @Antonette
-          </Button>
-        </Typography>
+        {(user || computedUser) && (
+          <Typography style={{ paddingBottom: "1rem" }}>
+            Posted by
+            <Button
+              variant="plain"
+              size="paddingless"
+              style={{ marginLeft: "1rem" }}
+            >
+              {getUserHandle(computedUser!)}
+            </Button>
+          </Typography>
+        )}
         <a href="">
           <Typography variant="heading" as="h3">
-            {title}
+            {title} {postId}
           </Typography>
         </a>
         <Separator size="small" />
-        <Typography variant="subheading">{body}</Typography>
+        <Typography variant="subheading" weight="bold">
+          {body}
+        </Typography>
       </article>
-      {!!computedComments().length && (
+      {!!computedComments?.length && (
         <>
           <Separator size="small" />
           <div
@@ -76,20 +108,11 @@ export const PostCard: FC<PostCardProps> = ({
           </div>
         </>
       )}
-      {computedComments() && (
+      {computedComments && (
         <FlatList
-          data={computedComments().slice(0, 3)}
+          data={computedComments.slice(0, 3)}
           renderItem={(comment) => (
-            <div className={styles["post-feed-card__comment"]}>
-              <Button
-                variant="plain"
-                size="paddingless"
-                style={{ marginBottom: "1rem" }}
-              >
-                @veljkoza
-              </Button>
-              <Typography>{comment.body}</Typography>
-            </div>
+            <PostFeedCardComment body={comment.body} email={comment.email} />
           )}
           renderSeparator={() => (
             <div
@@ -118,6 +141,26 @@ export const PostsFeed = <T extends GetAllPostsDTO>({
       renderItem={renderItem}
       renderSeparator={(item) => <Separator key={item.id + 999} />}
     />
+  );
+};
+
+type PostFeedCardCommentProps = {
+  email: string;
+  body: string;
+};
+
+const PostFeedCardComment: FC<PostFeedCardCommentProps> = ({ email, body }) => {
+  return (
+    <div className={styles["post-feed-card__comment"]}>
+      <Button
+        variant="plain"
+        size="paddingless"
+        style={{ marginBottom: "1rem" }}
+      >
+        <Typography weight="bold">@ {email}</Typography>
+      </Button>
+      <Typography>{body}</Typography>
+    </div>
   );
 };
 

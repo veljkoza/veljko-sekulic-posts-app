@@ -1,16 +1,24 @@
-import { useHttpClient } from "@/app/providers";
+import { useCache, useHttpClient } from "@/app/providers";
 import { Logo } from "@/ui";
 import { Separator } from "@/ui/separator";
+import { useEffect } from "react";
 import { PostsFeed } from "./post-feed";
 import styles from "./posts-feed.page.module.css";
 
 export const PostsFeedPage = () => {
   const { queries } = useHttpClient();
-  const {
-    data: posts,
-    isLoading,
-    error,
-  } = queries.extendedPost.getAll.useQuery();
+  const { data, isLoading, error } = queries.extendedPost.getAll.useQuery();
+
+  const { cache } = useCache();
+  const { extendedPosts: posts, numberOfPrefetchedPosts } = data || {};
+
+  // cache initial posts
+  useEffect(() => {
+    posts
+      ?.slice(0, numberOfPrefetchedPosts)
+      .forEach((post) => (cache.postsComments[post.id] = post.comments));
+  }, [posts?.length]);
+
   const getBody = () => {
     if (isLoading) return <h1>Loading...</h1>;
     if (error) return <h1>{error.message}</h1>;
@@ -25,6 +33,7 @@ export const PostsFeedPage = () => {
             key={post.id}
             comments={post.comments}
             postId={post.id}
+            userId={post.userId}
           />
         )}
       />
