@@ -1,4 +1,4 @@
-# 🌟 React Posts Assignment
+# 💻 React Posts Assignment
 
 ## Introduction
 
