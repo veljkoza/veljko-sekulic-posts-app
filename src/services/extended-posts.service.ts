@@ -68,7 +68,11 @@ export const createExtendedPostsService = ({
           username: params.username,
         });
         const user = usersWithThatUsername[0];
-        urlParams["userId"] = user.id;
+        if (user) {
+          urlParams["userId"] = user.id;
+        } else {
+          urlParams["userId"] = -1;
+        }
       }
       const posts = await postsService.getAll(urlParams);
       const no_of_prefetched_posts = 5;

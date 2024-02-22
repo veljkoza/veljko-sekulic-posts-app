@@ -1,12 +1,14 @@
 import { useCache, useHttpClient } from "@/app/providers";
+import { useDebounce } from "@/ui";
 import { useEffect, useState } from "react";
 
 export const usePostsFeedPage = () => {
   const [searchInput, setSearchInput] = useState("");
   const { queries } = useHttpClient();
 
+  const debouncedSearchInput = useDebounce(searchInput);
   const getParams = () => {
-    if (searchInput) return { username: searchInput };
+    if (debouncedSearchInput) return { username: debouncedSearchInput };
   };
   const { data, isLoading, error } = queries.extendedPost.getAll.useQuery({
     params: getParams(),
