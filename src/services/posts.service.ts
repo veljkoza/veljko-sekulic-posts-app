@@ -1,20 +1,28 @@
 import { httpClient } from "@/infrastructure";
-import { GetAllPostsDTO, GetPostByIdDTO } from "@/models";
+import {
+  GetAllPostsDTO,
+  GetCommentsByPostIdDTO,
+  GetPostByIdDTO,
+} from "@/models";
 import { ServiceFn } from "./types";
 
 export interface IPostsService {
   getAll: () => Promise<GetAllPostsDTO>;
   getById: (postId: string) => Promise<GetPostByIdDTO>;
+  getCommentsByPostId: (postId: string) => Promise<GetCommentsByPostIdDTO>;
 }
 
-export const createPostsService: ServiceFn<IPostsService> = (
-  urlPrefix,
+export const createPostsService: ServiceFn<IPostsService> = ({
+  url,
   http = httpClient,
-) => {
-  const getAll: IPostsService["getAll"] = () =>
-    http.get<GetAllPostsDTO>(urlPrefix);
+}) => {
+  const getAll: IPostsService["getAll"] = () => http.get<GetAllPostsDTO>(url);
   const getById: IPostsService["getById"] = (postId) =>
-    http.get<GetPostByIdDTO>(`${urlPrefix}/${postId}`);
+    http.get<GetPostByIdDTO>(`${url}/${postId}`);
+  const getCommentsByPostId: IPostsService["getCommentsByPostId"] = (postId) =>
+    http.get<GetCommentsByPostIdDTO>(`${url}/${postId}/comments`);
 
-  return { getAll, getById };
+  return { getAll, getById, getCommentsByPostId };
 };
+
+
