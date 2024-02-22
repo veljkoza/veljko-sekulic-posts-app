@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useHttpClient } from "@/app/providers";
 import { Logo } from "@/ui";
 import { Separator } from "@/ui/separator";
@@ -25,6 +24,7 @@ export const PostsFeedPage = () => {
             body={post.body}
             key={post.id}
             comments={post.comments}
+            postId={post.id}
           />
         )}
       />

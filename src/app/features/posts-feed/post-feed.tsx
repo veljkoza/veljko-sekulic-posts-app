@@ -1,22 +1,52 @@
+import { useHttpClient } from "@/app/providers";
 import { Comment, GetAllPostsDTO } from "@/models";
-import { FlatList, FlatListProps } from "@/ui";
+import { FlatList, FlatListProps, useVisible } from "@/ui";
 import { Button } from "@/ui/button/button";
 import { Separator } from "@/ui/separator";
 import { Typography } from "@/ui/typography";
-import { FC } from "react";
+import { FC, useRef } from "react";
 import styles from "./posts-feed.module.css";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 export type PostCardProps = {
   //   username: string;
   body: string;
   title: string;
-  comments?: Comment[];
-  //   postId: string;
+  comments: Comment[];
+  postId: number;
 };
 
-export const PostCard: FC<PostCardProps> = ({ body, title, comments }) => {
+export const PostCard: FC<PostCardProps> = ({
+  body,
+  title,
+  comments,
+  postId,
+}) => {
+  const postRef = useRef<HTMLScriptElement | null>(null);
+
+  const { isVisible } = useVisible(postRef, {
+    onIntersect: (entry) => {
+      const postId = entry.target.getAttribute("data-post-id");
+      console.log({ postId });
+    },
+  });
+  const { queries } = useHttpClient();
+  const { data: fetchedComments } = queries.posts.getCommentsByPostId.useQuery({
+    params: postId,
+    options: { enabled: isVisible && comments.length === 0 },
+  });
+
+  const computedComments = () => {
+    if (fetchedComments) return fetchedComments;
+    return comments;
+  };
+
   return (
-    <section className={styles["post-feed-card"]}>
+    <section
+      className={styles["post-feed-card"]}
+      ref={postRef}
+      data-post-id={postId}
+    >
       <article>
         <Typography style={{ paddingBottom: "1rem" }}>
           Posted by
@@ -36,7 +66,7 @@ export const PostCard: FC<PostCardProps> = ({ body, title, comments }) => {
         <Separator size="small" />
         <Typography variant="subheading">{body}</Typography>
       </article>
-      {!!comments?.length && (
+      {!!computedComments().length && (
         <>
           <Separator size="small" />
           <div
@@ -46,9 +76,9 @@ export const PostCard: FC<PostCardProps> = ({ body, title, comments }) => {
           </div>
         </>
       )}
-      {comments && (
+      {computedComments() && (
         <FlatList
-          data={comments.slice(0, 3)}
+          data={computedComments().slice(0, 3)}
           renderItem={(comment) => (
             <div className={styles["post-feed-card__comment"]}>
               <Button

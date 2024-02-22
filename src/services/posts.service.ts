@@ -8,8 +8,8 @@ import { ServiceFn } from "./types";
 
 export interface IPostsService {
   getAll: () => Promise<GetAllPostsDTO>;
-  getById: (postId: string) => Promise<GetPostByIdDTO>;
-  getCommentsByPostId: (postId: string) => Promise<GetCommentsByPostIdDTO>;
+  getById: (postId: number) => Promise<GetPostByIdDTO>;
+  getCommentsByPostId: (postId: number) => Promise<GetCommentsByPostIdDTO>;
 }
 
 export const createPostsService: ServiceFn<IPostsService> = ({
@@ -24,5 +24,3 @@ export const createPostsService: ServiceFn<IPostsService> = ({
 
   return { getAll, getById, getCommentsByPostId };
 };
-
-
