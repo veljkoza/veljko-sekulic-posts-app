@@ -1,5 +1,9 @@
 import { httpClient as defaultHttpClient } from "@/infrastructure";
-import { createCommentService, createPostsService } from "..";
+import {
+  createCommentService,
+  createPostsService,
+  createUsersService,
+} from "..";
 import { createExtendedPostsService } from "../extended-posts.service";
 
 export const createServices = (httpClient = defaultHttpClient) => {
@@ -13,9 +17,12 @@ export const createServices = (httpClient = defaultHttpClient) => {
     httpClient,
   });
 
+  const usersService = createUsersService({ url: "/users", http: httpClient });
+
   return {
     posts: postsService,
     comments: commentsService,
-    extendedPostsService,
+    extendedPosts: extendedPostsService,
+    users: usersService,
   };
 };
