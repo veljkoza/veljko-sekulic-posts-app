@@ -1,5 +1,6 @@
 import type { ComponentProps } from "react";
 import styles from "./button.module.css";
+import { Link } from "react-router-dom";
 const SIZE = {
   mini: styles["button--mini"],
   default: styles["button--default"],
@@ -24,9 +25,9 @@ export const Button = ({
   const computedClassName = `${styles.button} ${SIZE[size]} ${VARIANT[variant]} ${className}`;
   if (href)
     return (
-      <a href={href} className={computedClassName}>
+      <Link to={href} className={computedClassName}>
         {props.children}
-      </a>
+      </Link>
     );
   return (
     <button {...props} className={computedClassName}>

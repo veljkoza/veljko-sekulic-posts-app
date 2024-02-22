@@ -18,6 +18,9 @@ export const createQueries = (httpClient = defaultHttpClient) => {
     getAll: {
       useQuery: createUseQuery(extendedPosts.getAll),
     },
+    getById: {
+      useQuery: createUseQuery(extendedPosts.getById),
+    },
   };
 
   const usersQueries = {

@@ -1,15 +1,17 @@
 import { useCache, useHttpClient } from "@/app/providers";
 import {
   Comment,
+  ExtendedPost,
   GetAllPostsDTO,
   GetCommentsByPostIdDTO,
+  User,
   getUserHandle,
 } from "@/models";
 import { FlatList, FlatListProps, useVisible } from "@/ui";
 import { Button } from "@/ui/button";
 import { Separator } from "@/ui/separator";
 import { Typography } from "@/ui/typography";
-import { FC, useEffect, useRef } from "react";
+import React, { FC, useEffect, useRef } from "react";
 import styles from "./posts-feed.module.css";
 
 export type PostCardProps = {
@@ -18,6 +20,8 @@ export type PostCardProps = {
   title: string;
   comments: Comment[];
   postId: number;
+  visibleComments?: number | "unlimited";
+  actions?: (extendedPost: ExtendedPost & { user: User }) => React.JSX.Element;
 };
 
 const usePostFeedCard = ({
@@ -85,12 +89,19 @@ export const PostsFeedCard: FC<PostCardProps> = ({
   comments: initialComments,
   postId,
   userId,
+  visibleComments = 3,
+  actions,
 }) => {
   const { postRef, comments, user } = usePostFeedCard({
     initialComments,
     postId,
     userId,
   });
+
+  const getVisibleComments = () => {
+    if (visibleComments === "unlimited") return comments;
+    return comments.slice(0, visibleComments);
+  };
   return (
     <section
       className={styles["post-feed-card"]}
@@ -128,12 +139,18 @@ export const PostsFeedCard: FC<PostCardProps> = ({
       )}
       {comments && (
         <FlatList
-          data={comments.slice(0, 3)}
+          data={getVisibleComments()}
           renderItem={(comment) => (
             <PostsFeedCardComment body={comment.body} email={comment.email} />
           )}
           renderSeparator={() => <CommentSeparator />}
         />
+      )}
+      <Separator />
+      {actions && (
+        <div className={styles["post-feed-card__actions-container"]}>
+          {actions({ body, title, comments, id: postId, user: user!, userId: userId })}
+        </div>
       )}
     </section>
   );

@@ -1,5 +1,5 @@
 import { HttpClient } from "@/infrastructure";
-import { ExtendedPost, Post } from "@/models";
+import { ExtendedPost, Post, User } from "@/models";
 import { IPostsService, IUsersService } from ".";
 
 interface IExtendedPostsService {
@@ -7,6 +7,7 @@ interface IExtendedPostsService {
     numberOfPrefetchedPosts: number;
     extendedPosts: ExtendedPost[];
   }>;
+  getById: (postId: number) => Promise<ExtendedPost & { user: User }>;
 }
 
 export const createExtendedPostsService = ({
@@ -77,6 +78,7 @@ export const createExtendedPostsService = ({
       const posts = await postsService.getAll(urlParams);
       const no_of_prefetched_posts = 5;
 
+      // prefetch n number of comments so they are visible instantly
       const extendedPosts = await getAllWithPrefetchedComments(
         no_of_prefetched_posts,
         posts,
@@ -86,6 +88,18 @@ export const createExtendedPostsService = ({
         extendedPosts,
         numberOfPrefetchedPosts: no_of_prefetched_posts,
       };
+    },
+    getById: async (postId) => {
+      const post = await postsService.getById(postId);
+      const commentsPromise = postsService.getCommentsByPostId(postId);
+      const userPromise = usersService.getById(post.userId);
+
+      const [comments, user] = await Promise.all([
+        commentsPromise,
+        userPromise,
+      ]);
+
+      return { ...post, comments, user };
     },
   };
 };

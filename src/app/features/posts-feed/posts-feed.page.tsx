@@ -1,12 +1,19 @@
-import { Header, Input } from "@/ui";
+import { routes } from "@/app/router";
+import { Button, Header, Input } from "@/ui";
 import { Separator } from "@/ui/separator";
 import { PostsFeed } from "./posts-feed";
 import styles from "./posts-feed.page.module.css";
 import { usePostsFeedPage } from "./use-posts-feed-page";
 
 export const PostsFeedPage = () => {
-  const { error, extendedPosts, isLoading, searchInputHandler } =
-    usePostsFeedPage();
+  const {
+    error,
+    extendedPosts,
+    navigate,
+    isLoading,
+    searchInputHandler,
+    cache,
+  } = usePostsFeedPage();
 
   const getBody = () => {
     if (isLoading) return <h1>Loading...</h1>;
@@ -23,6 +30,20 @@ export const PostsFeedPage = () => {
             comments={post.comments}
             postId={post.id}
             userId={post.userId}
+            actions={(extendedPost) => (
+              <Button
+                onClick={(e) => {
+                  e.preventDefault();
+
+                  // cache complete extended post before navigating
+                  const cached = extendedPost;
+                  cache.extendedPosts[post.id] = cached;
+                  navigate(routes.posts.details(post.id).path);
+                }}
+              >
+                See more
+              </Button>
+            )}
           />
         )}
       />

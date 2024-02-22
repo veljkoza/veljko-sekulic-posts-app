@@ -7,30 +7,35 @@ export type QueryState<TData> = {
   isLoading: boolean;
 };
 
-const initialState = {
-  data: undefined,
-  isLoading: false,
-  error: undefined,
-};
-
-export type QueryOptions = {
+export type QueryOptions<T> = {
   enabled?: boolean;
+  initialData?: T;
 };
 
 export function useQuery<TResponse>(props: {
   queryFn: QueryFn<void, TResponse>;
-  options?: QueryOptions;
+  options?: QueryOptions<TResponse>;
 }): QueryState<TResponse>;
 export function useQuery<TParams, TResponse>(props: {
   queryFn: QueryFn<TParams, TResponse>;
   params: TParams;
-  options?: QueryOptions;
+  options?: QueryOptions<TResponse>;
 }): QueryState<TResponse>;
 export function useQuery<TParams = void, TResponse = void>(props: {
   queryFn: (params?: TParams) => Promise<TResponse>;
   params?: TParams;
-  options?: QueryOptions;
+  options?: QueryOptions<TResponse>;
 }) {
+  // options
+  const { enabled = true, initialData } = props.options || {};
+
+  // rest
+  const initialState = {
+    data: initialData,
+    isLoading: false,
+    error: undefined,
+  };
+
   const [state, setState] = useState<QueryState<TResponse>>(initialState);
   const updateState = <K extends keyof typeof state>(
     key: K,
@@ -39,12 +44,12 @@ export function useQuery<TParams = void, TResponse = void>(props: {
     setState((prev) => ({ ...prev, [key]: value }));
   };
 
-  const { enabled = true } = props.options || {};
-
   useEffect(() => {
     const abortController = new AbortController(); // Instantiate a new AbortController
     const getData = async () => {
-      updateState("isLoading", true);
+      if (!initialData) {
+        updateState("isLoading", true);
+      }
       try {
         const getRes = async () =>
           props.params !== undefined

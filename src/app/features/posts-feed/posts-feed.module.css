@@ -55,3 +55,8 @@
     padding: 4rem; /* Original padding for large desktops */
   }
 }
+
+.post-feed-card__actions-container {
+  display: flex;
+  justify-content: flex-end;
+}

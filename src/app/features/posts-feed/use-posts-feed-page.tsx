@@ -1,11 +1,12 @@
 import { useCache, useHttpClient } from "@/app/providers";
 import { useDebounce } from "@/ui";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const usePostsFeedPage = () => {
   const [searchInput, setSearchInput] = useState("");
   const { queries } = useHttpClient();
-
+  const navigate = useNavigate();
   const debouncedSearchInput = useDebounce(searchInput);
   const getParams = () => {
     if (debouncedSearchInput) return { username: debouncedSearchInput };
@@ -27,5 +28,12 @@ export const usePostsFeedPage = () => {
       .forEach((post) => (cache.postsComments[post.id] = post.comments));
   }, [extendedPosts?.length]);
 
-  return { extendedPosts, isLoading, error, searchInputHandler };
+  return {
+    extendedPosts,
+    isLoading,
+    error,
+    searchInputHandler,
+    cache,
+    navigate,
+  };
 };

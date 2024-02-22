@@ -2,11 +2,11 @@ import { QueryOptions, QueryState, useQuery } from ".";
 import { QueryFn } from "..";
 
 type UseQueryFnWithoutParams<TResponse> = (params?: {
-  options?: QueryOptions;
+  options?: QueryOptions<TResponse>;
 }) => QueryState<TResponse>;
 type UseQueryFnWithParams<TParams, TResponse> = (params: {
   params: TParams;
-  options?: QueryOptions;
+  options?: QueryOptions<TResponse>;
 }) => QueryState<TResponse>;
 
 export function createUseQuery<TResponse>(
@@ -20,7 +20,7 @@ export function createUseQuery<TParams = void, TResponse = void>(
 ) {
   return function (props?: {
     params?: TParams;
-    options?: QueryOptions;
+    options?: QueryOptions<TResponse>;
   }): QueryState<TResponse> {
     // Check if `params` is provided and call `useQuery` accordingly
     if (props?.params !== undefined) {
