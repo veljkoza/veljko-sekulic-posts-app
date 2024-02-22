@@ -1,18 +1,18 @@
 import { HttpClient } from "@/infrastructure";
-import { Comment, Post } from "@/models";
+import { ExtendedPost, Post } from "@/models";
 import { IPostsService } from ".";
-type ExtendedPost = Post & { comments: Comment[] };
 
 interface IExtendedPostsService {
-  getAll: () => Promise<ExtendedPost[]>;
+  getAll: () => Promise<{
+    numberOfPrefetchedPosts: number;
+    extendedPosts: ExtendedPost[];
+  }>;
 }
 
 export const createExtendedPostsService = ({
   postsService,
-  // commentsService,
 }: {
   postsService: IPostsService;
-  // commentsService: ICommentsService;
   httpClient: HttpClient;
 }): IExtendedPostsService => {
   const getAllWithPrefetchedComments = async (
@@ -31,11 +31,10 @@ export const createExtendedPostsService = ({
     commentsArray.forEach((comments) => {
       const firstComment = comments[0];
       const foundPost = posts.find((post) => post.id === firstComment.postId);
-      console.log({ firstComment, foundPost });
       if (foundPost) {
         extendedPostsMap[firstComment.postId] = {
           ...foundPost,
-          comments: comments,
+          comments,
         };
       }
     });
@@ -62,14 +61,17 @@ export const createExtendedPostsService = ({
   return {
     getAll: async () => {
       const posts = await postsService.getAll();
-      const prefetch_post_w_comments_no = 5;
+      const no_of_prefetched_posts = 5;
 
       const extendedPosts = await getAllWithPrefetchedComments(
-        prefetch_post_w_comments_no,
+        no_of_prefetched_posts,
         posts,
       );
 
-      return extendedPosts;
+      return {
+        extendedPosts,
+        numberOfPrefetchedPosts: no_of_prefetched_posts,
+      };
     },
   };
 };

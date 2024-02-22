@@ -2,6 +2,7 @@ export {
   type Comment,
   type GetCommentByIdDTO,
   type GetCommentsByPostIdDTO,
-} from "./comments";
-export { type GetAllPostsDTO, type GetPostByIdDTO, type Post } from "./posts";
-export { getUserHandle, type GetUserByIdDTO, type User } from "./users";
+} from "./Comment";
+export { type ExtendedPost } from "./ExtendedPost";
+export { type GetAllPostsDTO, type GetPostByIdDTO, type Post } from "./Post";
+export { getUserHandle, type GetUserByIdDTO, type User } from "./User";
