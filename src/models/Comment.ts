@@ -5,3 +5,5 @@ export interface Comment {
   email: string;
   body: string;
 }
+export type GetCommentByIdDTO = Comment;
+export type GetCommentsByPostIdDTO = Comment[];

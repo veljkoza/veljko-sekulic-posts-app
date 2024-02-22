@@ -4,3 +4,6 @@ export interface Post {
   title: string;
   body: string;
 }
+
+export type GetPostByIdDTO = Post;
+export type GetAllPostsDTO = Post[];
