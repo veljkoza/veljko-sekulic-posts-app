@@ -1,5 +1,10 @@
 import { useCache, useHttpClient } from "@/app/providers";
-import { Comment, GetAllPostsDTO, getUserHandle } from "@/models";
+import {
+  Comment,
+  GetAllPostsDTO,
+  GetCommentsByPostIdDTO,
+  getUserHandle,
+} from "@/models";
 import { FlatList, FlatListProps, useVisible } from "@/ui";
 import { Button } from "@/ui/button";
 import { Separator } from "@/ui/separator";
@@ -15,12 +20,14 @@ export type PostCardProps = {
   postId: number;
 };
 
-export const PostCard: FC<PostCardProps> = ({
-  body,
-  title,
-  comments,
+const usePostFeedCard = ({
+  initialComments,
   postId,
   userId,
+}: {
+  postId: number;
+  userId: number;
+  initialComments: GetCommentsByPostIdDTO;
 }) => {
   const postRef = useRef<HTMLScriptElement | null>(null);
   const { isVisible } = useVisible(postRef, {
@@ -35,17 +42,17 @@ export const PostCard: FC<PostCardProps> = ({
     },
   });
 
-  const { data: user } = queries.users.getById.useQuery({
+  const { data: fetchedUser } = queries.users.getById.useQuery({
     params: userId,
     options: { enabled: isVisible && !cache.users[userId] },
   });
 
   // add user to cache
   useEffect(() => {
-    if (user) {
-      cache.users[user.id] = user;
+    if (fetchedUser) {
+      cache.users[fetchedUser.id] = fetchedUser;
     }
-  }, [user?.id]);
+  }, [fetchedUser?.id]);
 
   //add comments to cache
   useEffect(() => {
@@ -58,17 +65,32 @@ export const PostCard: FC<PostCardProps> = ({
   const getComputedComments = () => {
     if (cache.postsComments[postId]) return cache.postsComments[postId];
     if (fetchedComments) return fetchedComments;
-    return comments;
+    return initialComments;
   };
 
   const getUser = () => {
     if (cache.users[userId]) return cache.users[userId];
-    return user;
+    return fetchedUser;
   };
 
-  const computedUser = getUser();
-  const computedComments = getComputedComments();
+  const user = getUser();
+  const comments = getComputedComments();
 
+  return { user, comments, postRef };
+};
+
+export const PostsFeedCard: FC<PostCardProps> = ({
+  body,
+  title,
+  comments: initialComments,
+  postId,
+  userId,
+}) => {
+  const { postRef, comments, user } = usePostFeedCard({
+    initialComments,
+    postId,
+    userId,
+  });
   return (
     <section
       className={styles["post-feed-card"]}
@@ -76,7 +98,7 @@ export const PostCard: FC<PostCardProps> = ({
       data-post-id={postId}
     >
       <article>
-        {(user || computedUser) && (
+        {user && (
           <Typography style={{ paddingBottom: "1rem" }}>
             Posted by
             <Button
@@ -84,7 +106,7 @@ export const PostCard: FC<PostCardProps> = ({
               size="paddingless"
               style={{ marginLeft: "1rem" }}
             >
-              {getUserHandle(computedUser!)}
+              {getUserHandle(user!)}
             </Button>
           </Typography>
         )}
@@ -98,31 +120,19 @@ export const PostCard: FC<PostCardProps> = ({
           {body}
         </Typography>
       </article>
-      {!!computedComments?.length && (
+      {!!comments?.length && (
         <>
           <Separator size="small" />
-          <div
-            className={styles["post-feed-card__coments-separator-container"]}
-          >
-            <div className={styles["post-feed-card__coments-separator"]}></div>
-          </div>
+          <CommentSeparator />
         </>
       )}
-      {computedComments && (
+      {comments && (
         <FlatList
-          data={computedComments.slice(0, 3)}
+          data={comments.slice(0, 3)}
           renderItem={(comment) => (
-            <PostFeedCardComment body={comment.body} email={comment.email} />
+            <PostsFeedCardComment body={comment.body} email={comment.email} />
           )}
-          renderSeparator={() => (
-            <div
-              className={styles["post-feed-card__coments-separator-container"]}
-            >
-              <div
-                className={styles["post-feed-card__coments-separator"]}
-              ></div>
-            </div>
-          )}
+          renderSeparator={() => <CommentSeparator />}
         />
       )}
     </section>
@@ -144,12 +154,15 @@ export const PostsFeed = <T extends GetAllPostsDTO>({
   );
 };
 
-type PostFeedCardCommentProps = {
+type PostsFeedCardCommentProps = {
   email: string;
   body: string;
 };
 
-const PostFeedCardComment: FC<PostFeedCardCommentProps> = ({ email, body }) => {
+const PostsFeedCardComment: FC<PostsFeedCardCommentProps> = ({
+  email,
+  body,
+}) => {
   return (
     <div className={styles["post-feed-card__comment"]}>
       <Button
@@ -164,4 +177,10 @@ const PostFeedCardComment: FC<PostFeedCardCommentProps> = ({ email, body }) => {
   );
 };
 
-PostsFeed.Card = PostCard;
+const CommentSeparator = () => (
+  <div className={styles["post-feed-card__coments-separator-container"]}>
+    <div className={styles["post-feed-card__coments-separator"]}></div>
+  </div>
+);
+
+PostsFeed.Card = PostsFeedCard;

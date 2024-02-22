@@ -1,31 +1,19 @@
-import { useCache, useHttpClient } from "@/app/providers";
 import { Logo } from "@/ui";
 import { Separator } from "@/ui/separator";
-import { useEffect } from "react";
-import { PostsFeed } from "./post-feed";
+import { PostsFeed } from "./posts-feed";
 import styles from "./posts-feed.page.module.css";
+import { usePostsFeedPage } from "./use-posts-feed-page";
 
 export const PostsFeedPage = () => {
-  const { queries } = useHttpClient();
-  const { data, isLoading, error } = queries.extendedPost.getAll.useQuery();
-
-  const { cache } = useCache();
-  const { extendedPosts: posts, numberOfPrefetchedPosts } = data || {};
-
-  // cache initial posts
-  useEffect(() => {
-    posts
-      ?.slice(0, numberOfPrefetchedPosts)
-      .forEach((post) => (cache.postsComments[post.id] = post.comments));
-  }, [posts?.length]);
+  const { error, extendedPosts, isLoading } = usePostsFeedPage();
 
   const getBody = () => {
     if (isLoading) return <h1>Loading...</h1>;
     if (error) return <h1>{error.message}</h1>;
-    if (!posts || !posts.length) return <h1>No posts!</h1>;
+    if (!extendedPosts || !extendedPosts.length) return <h1>No posts!</h1>;
     return (
       <PostsFeed
-        data={posts}
+        data={extendedPosts}
         renderItem={(post) => (
           <PostsFeed.Card
             title={post.title}

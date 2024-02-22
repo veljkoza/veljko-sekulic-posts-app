@@ -1,7 +1,6 @@
 import { httpClient as defaultHttpClient } from "@/infrastructure";
 import { createServices } from "@/services";
 import { createUseQuery } from ".";
-import { createUseInfiniteQuery } from "./create-use-infinite-query";
 
 export const createQueries = (httpClient = defaultHttpClient) => {
   const { posts, comments, extendedPosts, users } = createServices(httpClient);
@@ -10,7 +9,6 @@ export const createQueries = (httpClient = defaultHttpClient) => {
     getById: { useQuery: createUseQuery(posts.getById) },
     getCommentsByPostId: {
       useQuery: createUseQuery(posts.getCommentsByPostId),
-      useInfiniteQuery: createUseInfiniteQuery(posts.getCommentsByPostId),
     },
   };
   const commentsQueries = {
