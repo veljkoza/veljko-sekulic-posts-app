@@ -1,8 +1,8 @@
-import { FlatList, FlatListProps } from "@/app/ui";
-import { Button } from "@/app/ui/button/button";
-import { Separator } from "@/app/ui/separator";
-import { Typography } from "@/app/ui/typography";
 import { Comment, GetAllPostsDTO } from "@/models";
+import { FlatList, FlatListProps } from "@/ui";
+import { Button } from "@/ui/button/button";
+import { Separator } from "@/ui/separator";
+import { Typography } from "@/ui/typography";
 import { FC } from "react";
 import styles from "./posts-feed.module.css";
 

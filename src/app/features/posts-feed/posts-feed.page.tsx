@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useHttpClient } from "@/app/providers";
-import { Logo } from "@/app/ui";
-import { Separator } from "@/app/ui/separator";
+import { Logo } from "@/ui";
+import { Separator } from "@/ui/separator";
 import { PostsFeed } from "./post-feed";
 import styles from "./posts-feed.page.module.css";
 
