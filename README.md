@@ -1,30 +1,35 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 🌟 React Posts Assignment
 
-Currently, two official plugins are available:
+## Introduction
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Welcome to the React Posts Assignment ! This application is a feature-rich platform for displaying posts and associated comments, designed with performance and scalability in mind. 🚀
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Data Fetching Library**: Created a custom library inspired by my open source npm package [react-query-factory](https://www.npmjs.com/package/react-query-factory) for efficient data fetching. 🛠️
+- **Client-Side Caching**: Implemented custom caching to minimize network requests and enhance user experience. 💾
+- **Virtualized Posts List**: Virtualization techniques used for rendering posts list to handle large datasets without pagination. 📜
+- **Lazy Loading**: Comments and users are loaded on-demand, ensuring resource optimization. 📦
+- **Dependency Injection**: `HttpClient` abstracted through context for easy mock substitution during testing. 🔄
+- **Modular Architecture**: Developed with a focus on modular design to facilitate maintainability and scalability. 🧩
 
-- Configure the top-level `parserOptions` property like this:
+## Getting Started
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+To get the application running:
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+1. Clone the repo: `git clone [repository-link]`
+2. Install dependencies: `npm install`
+3. Start the server: `npm run dev`
+4. Visit `http://localhost:5173/` to view the app.
+
+## Architecture
+
+The application is structured with a focus on modularity and separation of concerns:
+
+- `src/app/features`: Contains the core features of the application, like post details and feed.
+- `src/app/providers`: Includes context providers such as cache and HTTP client.
+- `src/services`: Houses the core utilities and services for data fetching.
+- `src/services`: Houses the HTTP client.
+- `src/models`: Defines the data models used across the application.
+- `src/ui`: Contains presentational components which are fully decoupled from rest of the codebase.

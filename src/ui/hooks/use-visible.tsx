@@ -5,11 +5,15 @@ export const useVisible = (
   ref: MutableRefObject<any>,
   options?: {
     onIntersect?: (entry: IntersectionObserverEntry) => void;
-    rootMargin?: string;
-  },
+  } & IntersectionObserverInit,
 ) => {
   const [isVisible, setIsVisible] = useState(false);
-  const { onIntersect, rootMargin = "100px" } = options || {};
+  const {
+    onIntersect,
+    rootMargin = "100px",
+    root = null,
+    threshold = 0.1,
+  } = options || {};
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -20,9 +24,9 @@ export const useVisible = (
         });
       },
       {
-        root: null,
+        root,
         rootMargin,
-        threshold: 1.0,
+        threshold,
       },
     );
 
