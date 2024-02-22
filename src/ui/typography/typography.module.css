@@ -1,28 +1,57 @@
 .typography {
   font-family: var(--font-family);
   color: var(--text-color);
-  margin: 0; /* Remove default margins */
 }
 
 .typography--heading {
-  font-size: var(--font-size-large);
+  font-size: calc(var(--font-size-large) - 4px);
   color: var(--secondary-color);
   font-weight: bold;
 }
 
 .typography--subheading {
-  font-size: var(--font-size-base);
+  font-size: calc(var(--font-size-base) - 2px);
   font-weight: normal;
 }
 
 .typography--body {
-  font-size: var(--font-size-small);
-  line-height: 2rem;
+  font-size: calc(var(--font-size-small) - 2px);
+  line-height: 1.5rem;
 }
 
 .typography--bold {
   font-weight: bold;
 }
+
 .typography--regular {
   font-weight: 400;
+}
+
+@media (min-width: 768px) {
+  .typography--heading {
+    font-size: var(--font-size-large);
+  }
+
+  .typography--subheading {
+    font-size: var(--font-size-base);
+  }
+
+  .typography--body {
+    font-size: var(--font-size-small);
+    line-height: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .typography--heading {
+    font-size: calc(var(--font-size-large) + 2px);
+  }
+
+  .typography--subheading {
+    font-size: calc(var(--font-size-base) + 1px);
+  }
+
+  .typography--body {
+    font-size: calc(var(--font-size-small) + 1px);
+  }
 }
