@@ -1,5 +1,6 @@
 import { ExtendedPost, GetCommentsByPostIdDTO, User } from "@/models";
 import { PropsWithChildren, createContext, useContext } from "react";
+import { useLogger } from ".";
 
 // cache the users
 const usersCache: Record<number, User> = {};
@@ -23,6 +24,9 @@ export type CacheContextValue = {
 const CacheContext = createContext<CacheContextValue>({} as CacheContextValue);
 
 export const CacheProvider = (props: PropsWithChildren) => {
+  const { logger } = useLogger();
+  logger.log("CacheProvider");
+
   const cache = {
     users: usersCache,
     postsComments: postsCommentsCache,

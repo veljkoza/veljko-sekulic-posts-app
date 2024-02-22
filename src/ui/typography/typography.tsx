@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useLogger } from "@/app/providers";
 import type { ComponentProps, ComponentPropsWithRef } from "react";
 import styles from "./typography.module.css";
 
@@ -37,6 +38,12 @@ export const Typography = <T extends TypographyType>({
   as: component = "p" as T,
   ...props
 }: TypographyProps<T>) => {
+  // Not really recommended to couple pure UI
+  // components to providers like this,
+  // but it's okay for sake of this exercise
+  const { logger } = useLogger();
+  logger.log("Typography");
+
   const computedClassName = `${styles.typography} ${VARIANTS[variant]} ${WEIGHTS[weight]} ${className}`;
   const Component = component as ComponentProps<any>;
   return (

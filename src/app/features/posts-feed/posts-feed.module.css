@@ -2,6 +2,12 @@
   padding: 2rem;
   border-radius: 2.4rem;
   border: 1px solid var(--primary-opaque-color);
+  opacity: 0;
+  transition: ease-in-out 0.4s opacity;
+}
+
+.post-feed-card--visible {
+  opacity: 1;
 }
 
 .post-feed-card__coments-separator-container {

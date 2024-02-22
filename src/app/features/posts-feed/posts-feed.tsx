@@ -1,4 +1,4 @@
-import { useCache, useHttpClient } from "@/app/providers";
+import { useCache, useHttpClient, useLogger } from "@/app/providers";
 import {
   Comment,
   ExtendedPost,
@@ -35,7 +35,7 @@ const usePostFeedCard = ({
 }) => {
   const postRef = useRef<HTMLScriptElement | null>(null);
   const { isVisible } = useVisible(postRef, {
-    rootMargin: "700px",
+    rootMargin: "500px",
   });
   const { cache } = useCache();
   const { queries } = useHttpClient();
@@ -80,7 +80,7 @@ const usePostFeedCard = ({
   const user = getUser();
   const comments = getComputedComments();
 
-  return { user, comments, postRef };
+  return { user, comments, postRef, isVisible };
 };
 
 export const PostsFeedCard: FC<PostCardProps> = ({
@@ -92,11 +92,14 @@ export const PostsFeedCard: FC<PostCardProps> = ({
   visibleComments = 3,
   actions,
 }) => {
-  const { postRef, comments, user } = usePostFeedCard({
+  const { logger } = useLogger();
+  logger.log("PostsFeedCard");
+  const { postRef, comments, user, isVisible } = usePostFeedCard({
     initialComments,
     postId,
     userId,
   });
+  // if (!isVisible) return <section ref={postRef}></section>;
 
   const getVisibleComments = () => {
     if (visibleComments === "unlimited") return comments;
@@ -104,7 +107,7 @@ export const PostsFeedCard: FC<PostCardProps> = ({
   };
   return (
     <section
-      className={styles["post-feed-card"]}
+      className={`${styles["post-feed-card"]} ${isVisible && styles["post-feed-card--visible"]}`}
       ref={postRef}
       data-post-id={postId}
     >
@@ -149,7 +152,14 @@ export const PostsFeedCard: FC<PostCardProps> = ({
       <Separator />
       {actions && (
         <div className={styles["post-feed-card__actions-container"]}>
-          {actions({ body, title, comments, id: postId, user: user!, userId: userId })}
+          {actions({
+            body,
+            title,
+            comments,
+            id: postId,
+            user: user!,
+            userId: userId,
+          })}
         </div>
       )}
     </section>
@@ -162,6 +172,8 @@ export const PostsFeed = <T extends GetAllPostsDTO>({
   renderItem,
   data,
 }: PostsListProps<T>) => {
+  const { logger } = useLogger();
+  logger.log("PostsFeed");
   return (
     <FlatList
       data={data}
@@ -180,6 +192,8 @@ const PostsFeedCardComment: FC<PostsFeedCardCommentProps> = ({
   email,
   body,
 }) => {
+  const { logger } = useLogger();
+  logger.log("PostsFeedCardComment");
   return (
     <div className={styles["post-feed-card__comment"]}>
       <Button
@@ -194,10 +208,15 @@ const PostsFeedCardComment: FC<PostsFeedCardCommentProps> = ({
   );
 };
 
-const CommentSeparator = () => (
-  <div className={styles["post-feed-card__coments-separator-container"]}>
-    <div className={styles["post-feed-card__coments-separator"]}></div>
-  </div>
-);
+const CommentSeparator = () => {
+  const { logger } = useLogger();
+  logger.log("CommentSeparator");
+  return (
+    <div className={styles["post-feed-card__coments-separator-container"]}>
+      <div className={styles["post-feed-card__coments-separator"]}></div>
+    </div>
+  );
+};
+export default PostsFeedCard;
 
 PostsFeed.Card = PostsFeedCard;

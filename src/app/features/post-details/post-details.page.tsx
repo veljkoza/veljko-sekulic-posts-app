@@ -1,14 +1,17 @@
-import { useCache, useHttpClient } from "@/app/providers";
+import { useCache, useHttpClient, useLogger } from "@/app/providers";
 import { ExtendedPost } from "@/models";
 import { Header, Separator } from "@/ui";
 import { useParams } from "react-router-dom";
 import { PostsFeed } from "../posts-feed/posts-feed";
 
 export const PostDetailsPage = () => {
+  const { logger } = useLogger();
+  logger.log("PostDetailsPage");
+
   const { postId = "" } = useParams();
-  console.log({ postId });
   const { queries } = useHttpClient();
   const { cache } = useCache();
+
   const cachedExtendedPost = cache.extendedPosts[postId];
 
   const getInitialData = () => {
@@ -29,6 +32,7 @@ export const PostDetailsPage = () => {
       initialData: getInitialData(),
     },
   });
+
   const getBody = () => {
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>{error.message}</div>;
@@ -45,6 +49,7 @@ export const PostDetailsPage = () => {
       />
     );
   };
+
   return (
     <main className="app-container">
       <Header />

@@ -1,5 +1,6 @@
 import { HttpClient, httpClient as defaultHttpClient } from "@/infrastructure";
 import { PropsWithChildren, createContext, useContext } from "react";
+import { useLogger } from ".";
 import { createQueries } from "../queries";
 
 export type HttpClientContextValue = {
@@ -14,6 +15,9 @@ export const HttpClientProvider = ({
   children,
   httpClient = defaultHttpClient,
 }: { httpClient: HttpClient } & PropsWithChildren) => {
+  const { logger } = useLogger();
+  logger.log("HttpClientProvider");
+
   const queries = createQueries(httpClient);
 
   return (
@@ -23,5 +27,4 @@ export const HttpClientProvider = ({
   );
 };
 
-
-export const useHttpClient = () => useContext(HttpClientContext)
+export const useHttpClient = () => useContext(HttpClientContext);

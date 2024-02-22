@@ -8,3 +8,8 @@ export {
   useHttpClient,
   type HttpClientContextValue,
 } from "./HttpClientProvider";
+export {
+  LoggerProvider,
+  useLogger,
+  type LoggerContextValue,
+} from "./LoggerProvider";

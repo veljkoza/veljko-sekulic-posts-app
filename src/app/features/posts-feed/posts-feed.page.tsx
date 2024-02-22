@@ -1,10 +1,26 @@
 import { routes } from "@/app/router";
-import { Button, Header, Input } from "@/ui";
+import { Button, Header, Input, useVisible } from "@/ui";
 import { Separator } from "@/ui/separator";
+import React, { useRef } from "react";
 import { PostsFeed } from "./posts-feed";
 import styles from "./posts-feed.page.module.css";
 import { usePostsFeedPage } from "./use-posts-feed-page";
+const LazyLoadedPostsFeed = React.lazy(() => import("./posts-feed"));
 
+const Virtualized = (props: Parameters<typeof LazyLoadedPostsFeed>["0"]) => {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const { isVisible } = useVisible(ref);
+
+  return (
+    <div ref={ref}>
+      {isVisible && (
+        <React.Suspense fallback={<div>Loading...</div>}>
+          <LazyLoadedPostsFeed {...props} />
+        </React.Suspense>
+      )}
+    </div>
+  );
+};
 export const PostsFeedPage = () => {
   const {
     error,
