@@ -1,0 +1,23 @@
+.post-feed-card {
+  padding: 4rem;
+  border-radius: 2.4rem;
+}
+
+.post-feed-card__coments-separator-container {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  height: 1.5rem;
+  padding-left: 2rem;
+}
+
+.post-feed-card__coments-separator {
+  height: 100%;
+  width: 0.1rem;
+  background-color: var(--primary-opaque-color);
+  border-radius: 5rem;
+}
+
+.post-feed-card__comment {
+  padding: 1rem 0;
+}

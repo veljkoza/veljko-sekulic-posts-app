@@ -2,34 +2,77 @@ import { FlatList, FlatListProps } from "@/app/ui";
 import { Button } from "@/app/ui/button/button";
 import { Separator } from "@/app/ui/separator";
 import { Typography } from "@/app/ui/typography";
-import { GetAllPostsDTO } from "@/models";
+import { Comment, GetAllPostsDTO } from "@/models";
 import { FC } from "react";
+import styles from "./posts-feed.module.css";
 
 export type PostCardProps = {
   //   username: string;
   body: string;
   title: string;
-  //   comments: string[];
+  comments?: Comment[];
   //   postId: string;
 };
 
-export const PostCard: FC<PostCardProps> = ({ body, title }) => {
+export const PostCard: FC<PostCardProps> = ({ body, title, comments }) => {
   return (
-    <article>
-      <Typography>
-        Posted by
-        <Button variant="plain" size="mini">
-          @Antonette
-        </Button>
-      </Typography>
-      <a href="">
-        <Typography variant="heading" as="h3">
-          {title}
+    <section className={styles["post-feed-card"]}>
+      <article>
+        <Typography style={{ paddingBottom: "1rem" }}>
+          Posted by
+          <Button
+            variant="plain"
+            size="paddingless"
+            style={{ marginLeft: "1rem" }}
+          >
+            @Antonette
+          </Button>
         </Typography>
-      </a>
-      <Separator size="small" />
-      <Typography>{body}</Typography>
-    </article>
+        <a href="">
+          <Typography variant="heading" as="h3">
+            {title}
+          </Typography>
+        </a>
+        <Separator size="small" />
+        <Typography variant="subheading">{body}</Typography>
+      </article>
+      {!!comments?.length && (
+        <>
+          <Separator size="small" />
+          <div
+            className={styles["post-feed-card__coments-separator-container"]}
+          >
+            <div className={styles["post-feed-card__coments-separator"]}></div>
+          </div>
+        </>
+      )}
+      {comments && (
+        <FlatList
+          data={comments.slice(0, 3)}
+          renderItem={(comment) => (
+            <div className={styles["post-feed-card__comment"]}>
+              <Button
+                variant="plain"
+                size="paddingless"
+                style={{ marginBottom: "1rem" }}
+              >
+                @veljkoza
+              </Button>
+              <Typography>{comment.body}</Typography>
+            </div>
+          )}
+          renderSeparator={() => (
+            <div
+              className={styles["post-feed-card__coments-separator-container"]}
+            >
+              <div
+                className={styles["post-feed-card__coments-separator"]}
+              ></div>
+            </div>
+          )}
+        />
+      )}
+    </section>
   );
 };
 

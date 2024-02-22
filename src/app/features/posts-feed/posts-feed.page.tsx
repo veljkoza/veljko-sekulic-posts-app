@@ -7,7 +7,11 @@ import styles from "./posts-feed.page.module.css";
 
 export const PostsFeedPage = () => {
   const { queries } = useHttpClient();
-  const { data: posts, isLoading, error } = queries.posts.getAll.useQuery();
+  const {
+    data: posts,
+    isLoading,
+    error,
+  } = queries.extendedPost.getAll.useQuery();
   const getBody = () => {
     if (isLoading) return <h1>Loading...</h1>;
     if (error) return <h1>{error.message}</h1>;
@@ -16,7 +20,12 @@ export const PostsFeedPage = () => {
       <PostsFeed
         data={posts}
         renderItem={(post) => (
-          <PostsFeed.Card title={post.title} body={post.body} key={post.id} />
+          <PostsFeed.Card
+            title={post.title}
+            body={post.body}
+            key={post.id}
+            comments={post.comments}
+          />
         )}
       />
     );

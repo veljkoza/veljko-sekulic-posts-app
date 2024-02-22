@@ -10,6 +10,7 @@
   font-size: 10px;
   /* Color scheme */
   --primary-color: #e0fbfc;
+  --primary-opaque-color: #e0fbfc65;
   --secondary-color: #f26419;
   --transparent: #ffffff00;
 
