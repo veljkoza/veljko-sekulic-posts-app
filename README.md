@@ -1,4 +1,3 @@
-
 # 🌟 React Posts Assignment
 
 ## Introduction
@@ -22,6 +21,14 @@ To get the application running:
 2. Install dependencies: `npm install`
 3. Start the server: `npm run dev`
 4. Visit `http://localhost:5173/` to view the app.
+
+Wait, but you haven't copied the `.env.example` to `.env`:
+
+```sh
+cp .env.example .env
+```
+
+In real world we wouldn't use actual values here, but since `API_URL` is public we shouldn't worry.
 
 ## Architecture
 

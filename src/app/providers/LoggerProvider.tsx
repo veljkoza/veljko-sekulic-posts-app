@@ -1,3 +1,4 @@
+import { env } from "@/env";
 import { PropsWithChildren, createContext, useContext } from "react";
 
 export type LoggerContextValue = {
@@ -9,7 +10,7 @@ const LoggerContext = createContext<LoggerContextValue>(
   {} as LoggerContextValue,
 );
 
-const LOGGER_PREFIX = "Hello from ";
+const LOGGER_PREFIX = env.LOGGER_PREFIX;
 
 export const LoggerProvider = (props: PropsWithChildren) => {
   const log = (text: string) => console.log(`${LOGGER_PREFIX}${text}`);

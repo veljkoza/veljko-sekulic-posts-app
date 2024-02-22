@@ -1,3 +1,5 @@
+import { env } from "@/env";
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const createHttpClient = (
   baseUrl = "",
@@ -67,6 +69,4 @@ export const createHttpClient = (
 
 export type HttpClient = ReturnType<typeof createHttpClient>;
 
-export const httpClient = createHttpClient(
-  "https://jsonplaceholder.typicode.com",
-);
+export const httpClient = createHttpClient(env.API_URL);
