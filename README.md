@@ -40,7 +40,7 @@ The application is structured with a focus on modularity and separation of conce
 - `src/app/features`: Contains the core features of the application, like post details and feed.
 - `src/app/providers`: Includes context providers such as cache and HTTP client.
 - `src/services`: Houses the core utilities and services for data fetching.
-- `src/services`: Houses the HTTP client.
+- `src/infrastructure`: Houses the HTTP client.
 - `src/models`: Defines the data models used across the application.
 - `src/ui`: Contains presentational components which are fully decoupled from rest of the codebase.
 
