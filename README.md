@@ -17,7 +17,7 @@ Welcome to the React Posts Assignment ! This application is a feature-rich platf
 
 To get the application running:
 
-1. Clone the repo: `git clone [[repository-link](https://github.com/veljkoza/veljko-sekulic-q-agency)]`
+1. Clone the repo: `git clone git@github.com:veljkoza/veljko-sekulic-q-agency.git`
 2. Install dependencies: `npm install`
 3. Start the server: `npm run dev`
 4. Visit `http://localhost:5173/` to view the app.
