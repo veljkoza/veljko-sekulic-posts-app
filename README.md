@@ -6,18 +6,18 @@ Welcome to the React Posts Assignment ! This application is a feature-rich platf
 
 ## Features
 
-- **Data Fetching Library**: Created a custom library inspired by my open source npm package [react-query-factory](https://www.npmjs.com/package/react-query-factory) for efficient data fetching. 🛠️
-- **Client-Side Caching**: Implemented custom caching to minimize network requests and enhance user experience. 💾
-- **Virtualized Posts List**: Virtualization techniques used for rendering posts list to handle large datasets without pagination. 📜
-- **Lazy Loading**: Comments and users are loaded on-demand, ensuring resource optimization. 📦
-- **Dependency Injection**: `HttpClient` abstracted through context for easy mock substitution during testing. 🔄
-- **Modular Architecture**: Developed with a focus on modular design to facilitate maintainability and scalability. 🧩
+- **Data Fetching Library**: Created a custom small library inspired by my open source npm package [react-query-factory](https://www.npmjs.com/package/react-query-factory) for efficient data fetching.
+- **Client-Side Caching**: Implemented custom caching to minimize network requests and enhance user experience. Users and Comments are cached so they don't have to be refetched each time.
+- **Virtualized Posts List**: Virtualization techniques used for rendering posts list to handle large datasets without pagination ensuring low load on the DOM.
+- **Lazy Loading**: Because of the API limitations Comments and users are loaded on-demand, ensuring resource optimization.
+- **Dependency Injection**: `HttpClient` abstracted through context for easy mock substitution during testing.
+- **Modular Architecture**: Developed with a focus on modular design to facilitate maintainability and scalability.
 
 ## Getting Started
 
 To get the application running:
 
-1. Clone the repo: `git clone [repository-link]`
+1. Clone the repo: `git clone [[repository-link](https://github.com/veljkoza/veljko-sekulic-q-agency)]`
 2. Install dependencies: `npm install`
 3. Start the server: `npm run dev`
 4. Visit `http://localhost:5173/` to view the app.
