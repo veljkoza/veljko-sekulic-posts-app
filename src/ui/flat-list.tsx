@@ -1,4 +1,5 @@
 import { useLogger } from "@/app/providers";
+import { Fragment } from "react";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type FlatListProps<T extends any[]> = {
@@ -21,10 +22,10 @@ export const FlatList = <T extends any[]>({
   return (
     <div>
       {data.map((item, i) => (
-        <>
+        <Fragment key={i + 9999}>
           {renderItem(item, i)}{" "}
           {i % 1 === 0 && i <= data.length - 2 && renderSeparator?.(item, i)}
-        </>
+        </Fragment>
       ))}
     </div>
   );

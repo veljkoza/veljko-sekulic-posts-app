@@ -1,4 +1,6 @@
 import { useCache, useHttpClient } from "@/app/providers";
+import { routes } from "@/app/router";
+import { ExtendedPost, User } from "@/models";
 import { useDebounce } from "@/ui";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +23,13 @@ export const usePostsFeedPage = () => {
   const searchInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
   };
+
+  const viewMoreHandler = (extendedPost: ExtendedPost & { user: User }) => {
+    // cache complete extended post before navigating
+    const cached = extendedPost;
+    cache.extendedPosts[extendedPost.id] = cached;
+    navigate(routes.posts.details(extendedPost.id).path);
+  };
   // cache initial posts
   useEffect(() => {
     extendedPosts
@@ -33,7 +42,6 @@ export const usePostsFeedPage = () => {
     isLoading,
     error,
     searchInputHandler,
-    cache,
-    navigate,
+    viewMoreHandler,
   };
 };

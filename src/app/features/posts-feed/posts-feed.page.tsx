@@ -1,4 +1,4 @@
-import { routes } from "@/app/router";
+import { useLogger } from "@/app/providers";
 import { Button, Header, Input, Virtualized } from "@/ui";
 import { Separator } from "@/ui/separator";
 import { PostsFeed } from "./posts-feed";
@@ -9,11 +9,13 @@ export const PostsFeedPage = () => {
   const {
     error,
     extendedPosts,
-    navigate,
     isLoading,
     searchInputHandler,
-    cache,
+    viewMoreHandler,
   } = usePostsFeedPage();
+
+  const { logger } = useLogger();
+  logger.log("PostsFeedPage");
 
   const getBody = () => {
     if (isLoading) return <h1>Loading...</h1>;
@@ -35,11 +37,7 @@ export const PostsFeedPage = () => {
                 <Button
                   onClick={(e) => {
                     e.preventDefault();
-
-                    // cache complete extended post before navigating
-                    const cached = extendedPost;
-                    cache.extendedPosts[post.id] = cached;
-                    navigate(routes.posts.details(post.id).path);
+                    viewMoreHandler(extendedPost);
                   }}
                 >
                   See more
