@@ -58,4 +58,10 @@ https://github.com/veljkoza/veljko-sekulic-q-agency/assets/45906772/b9e38cf1-417
 Since we don't get all necessary information with the Posts resource, we have to fetch the Users and Comments separately. A lot of Comments are placed by the same User, so there is no need to fetch the user each time for each comment. Instead what we do is cache the User and try to use it in our components if it exists. Same thing with Comments.
 For that reason I've implemented primitive version of Caching system with `CacheProvider`. You'll notice when navigating to the `post/:id` route that data is shown "optimistically" or from cache. While in background we fetch real data. 
 
+## Tech Stack
+
+- *Vanilla React*
+- *Typescript* to the max
+- and one *Life saving Prettier plugin for organizing imports* - [prettier-plugin-organize-imports](https://www.npmjs.com/package/prettier-plugin-organize-imports)https://www.npmjs.com/package/prettier-plugin-organize-imports
+
 
