@@ -20,7 +20,7 @@ https://veljko-sekulic-q-agency.vercel.app/
 
 To get the application running:
 
-1. Clone the repo: `git clone git@github.com:veljkoza/veljko-sekulic-q-agency.git`
+1. Clone the repo: `git clone git@github.com:veljkoza/veljko-sekulic-posts-app.git`
 2. Install dependencies: `npm install`
 3. Start the server: `npm run dev`
 4. Visit `http://localhost:5173/` to view the app.
