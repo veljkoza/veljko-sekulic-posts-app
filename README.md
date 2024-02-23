@@ -60,8 +60,9 @@ For that reason I've implemented primitive version of Caching system with `Cache
 
 ## Tech Stack
 
-- *Vanilla React*
-- *Typescript* to the max
-- and one *Life saving Prettier plugin for organizing imports* - [prettier-plugin-organize-imports](https://www.npmjs.com/package/prettier-plugin-organize-imports)https://www.npmjs.com/package/prettier-plugin-organize-imports
+- Vanilla **React**
+- **Typescript** to the max
+- **CSS Modules**
+- and one **Life saving Prettier plugin for organizing imports** - [prettier-plugin-organize-imports](https://www.npmjs.com/package/prettier-plugin-organize-imports)
 
 
