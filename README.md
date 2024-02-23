@@ -4,6 +4,9 @@
 
 Welcome to the React Posts Assignment ! This application is a feature-rich platform for displaying posts and associated comments, designed with performance and scalability in mind. 🚀
 
+Deployed on Vercel for you to click around:
+https://veljko-sekulic-q-agency.vercel.app/
+
 ## Features
 
 - **Data Fetching Library**: Created a custom small library inspired by my open source npm package [react-query-factory](https://www.npmjs.com/package/react-query-factory) for efficient data fetching.
