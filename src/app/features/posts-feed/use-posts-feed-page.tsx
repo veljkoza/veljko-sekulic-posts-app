@@ -30,6 +30,13 @@ export const usePostsFeedPage = () => {
     cache.extendedPosts[extendedPost.id] = cached;
     navigate(routes.posts.details(extendedPost.id).path);
   };
+
+  const logoClickHandler = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
+    e.preventDefault();
+    setSearchInput(""); // resets the posts
+  };
   // cache initial posts
   useEffect(() => {
     extendedPosts
@@ -38,10 +45,12 @@ export const usePostsFeedPage = () => {
   }, [extendedPosts?.length]);
 
   return {
+    searchInput,
     extendedPosts,
     isLoading,
     error,
     searchInputHandler,
     viewMoreHandler,
+    logoClickHandler,
   };
 };

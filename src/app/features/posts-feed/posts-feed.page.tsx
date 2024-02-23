@@ -1,5 +1,5 @@
 import { useLogger } from "@/app/providers";
-import { Button, Header, Input, Virtualized } from "@/ui";
+import { Button, Header, Input, Logo, Virtualized } from "@/ui";
 import { Separator } from "@/ui/separator";
 import { PostsFeed } from "./posts-feed";
 import styles from "./posts-feed.page.module.css";
@@ -7,11 +7,13 @@ import { usePostsFeedPage } from "./use-posts-feed-page";
 
 export const PostsFeedPage = () => {
   const {
+    searchInput,
     error,
     extendedPosts,
     isLoading,
     searchInputHandler,
     viewMoreHandler,
+    logoClickHandler,
   } = usePostsFeedPage();
 
   const { logger } = useLogger();
@@ -52,9 +54,15 @@ export const PostsFeedPage = () => {
   return (
     <main className="app-container">
       <Header
+        left={
+          <Button size="paddingless" variant="plain" onClick={logoClickHandler}>
+            <Logo />
+          </Button>
+        }
         right={
           <div className={styles["search-bar"]}>
             <Input
+              value={searchInput}
               onChange={searchInputHandler}
               placeholder="Search by username. Ex: Antonette"
             />
