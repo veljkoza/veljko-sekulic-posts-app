@@ -26,39 +26,36 @@
 }
 
 .post-feed-card__comment {
-  padding: 0.5rem 0; /* Reduced padding for mobile */
+  padding: 0.5rem 0;
 }
 
-/* Increase padding for tablets */
 @media (min-width: 768px) {
   .post-feed-card__coments-separator-container {
-    padding-left: 1.5rem; /* Increased padding for tablets */
+    padding-left: 1.5rem;
   }
 
   .post-feed-card__comment {
-    padding: 0.75rem 0; /* Increased padding for tablets */
+    padding: 0.75rem 0;
   }
 }
 
-/* Increase padding for desktops */
 @media (min-width: 1024px) {
   .post-feed-card {
     padding: 3rem;
   }
 
   .post-feed-card__coments-separator-container {
-    padding-left: 2rem; /* Increased padding for desktops */
+    padding-left: 2rem;
   }
 
   .post-feed-card__comment {
-    padding: 1rem 0; /* Increased padding for desktops */
+    padding: 1rem 0;
   }
 }
 
-/* Further increase padding for large desktops */
 @media (min-width: 1440px) {
   .post-feed-card {
-    padding: 4rem; /* Original padding for large desktops */
+    padding: 4rem;
   }
 }
 
