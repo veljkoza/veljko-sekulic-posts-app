@@ -43,3 +43,19 @@ The application is structured with a focus on modularity and separation of conce
 
 
 In ideal world, we would build application inside of monorepo or similar. Our application would serve for presentation purposes only, while business logic would be separated into separate packages like `models`, `services`, `infrastructure`, etc. That way we could have core logic decoupled from UI, even React.
+
+## Virtualization
+
+Because we have to fetch a large amount of Posts initially, due to API limitations, if we don't make any kind of optimization, the client code will create a lot of nodes in the DOM. Even if 90% of those nodes aren't visible to the user, and aren't important until they come into the viewport. Enter the Virtualization tehnique.
+With virtualization we only populate DOM Nodes which are visible, improving performance of the application on low end devices drastically.
+
+
+
+https://github.com/veljkoza/veljko-sekulic-q-agency/assets/45906772/b9e38cf1-417e-4e0a-bcdb-60f332d39aae
+
+## Caching
+
+Since we don't get all necessary information with the Posts resource, we have to fetch the Users and Comments separately. A lot of Comments are placed by the same User, so there is no need to fetch the user each time for each comment. Instead what we do is cache the User and try to use it in our components if it exists. Same thing with Comments.
+For that reason I've implemented primitive version of Caching system with `CacheProvider`. You'll notice when navigating to the `post/:id` route that data is shown "optimistically" or from cache. While in background we fetch real data. 
+
+
